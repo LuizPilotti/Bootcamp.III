@@ -1,56 +1,29 @@
 # Projeto SDD — Gerenciador de Tarefas
 
-Projeto acadêmico estruturado para desenvolvimento orientado por especificação (SDD / Spec-Driven Development).
+Projeto acadêmico estruturado para desenvolvimento orientado por especificação (**Spec-Driven Development — SDD**).
 
 ## Objetivo
-Disponibilizar uma API simples para criação, consulta, atualização e conclusão de tarefas.
+Disponibilizar uma API REST para criação, consulta, atualização e conclusão de tarefas, com validação de contratos e suíte de testes automatizada.
 
-## Estrutura
-- `docs/especificacao.md` — especificação técnica do problema.
-- `docs/adr/ADR-001-arquitetura.md` — decisão arquitetural.
-- `.cursor/rules/project-rules.md` — regras/contexto para agente de IA.
-- `Dockerfile` e `docker-compose.yml` — ambiente padronizado.
-- `src/` — aplicação.
-- `tests/` — harness de testes.
-- `.github/workflows/tests.yml` — pipeline de testes.
-- `.github/pull_request_template.md` — padrão de Pull Request.
+## Estrutura do Repositório
+- `docs/especificacao.md` — Especificação técnica do problema (requisitos, contratos e modelos).
+- `docs/feedback.md` — Histórico de refinamentos por feedback do projeto.
+- `docs/adr/ADR-001-arquitetura.md` — Registro de decisões arquiteturais técnicas.
+- `.cursor/rules/project-rules.md` — Regras e diretrizes de contexto para agentes de IA.
+- `run_tests.bat` e `run_tests.sh` — Scripts de padronização e reprodução do ambiente.
+- `Dockerfile` e `docker-compose.yml` — Empacotamento alternativo em contêineres.
+- `src/` — Código-fonte da aplicação FastAPI.
+- `tests/` — Test Harness automatizado (pytest).
+- `.github/workflows/tests.yml` — Pipeline de integração contínua (CI).
+- `.github/pull_request_template.md` — Padrão institucional de Pull Request.
 
-## Execução com Docker
+---
 
-```bash
-docker compose up --build
-```
+## Padronização de Ambiente e Execução dos Testes
 
-A API ficará disponível em `http://localhost:8000`.
+O ambiente foi padronizado através de scripts automatizados que isolam as dependências em `.venv`, garantindo a reprodutibilidade da execução.
 
-## Testes
-
-Localmente:
-
-```bash
-pip install -r requirements.txt
-pytest -q
-```
-
-Com Docker:
-
-```bash
-docker compose run --rm app pytest -q
-```
-
-## Endpoints
-
-- `GET /health`
-- `POST /tasks`
-- `GET /tasks`
-- `GET /tasks/{task_id}`
-- `PATCH /tasks/{task_id}/complete`
-
-## Governança Git
-
-Fluxo sugerido:
-- `main` — branch protegida.
-- `develop` — integração.
-- `feature/*` — desenvolvimento de funcionalidades.
-
-Não são previstos commits diretos em `main`; alterações devem passar por Pull Request e revisão.
+### No Windows (sem Docker):
+Dê um duplo clique ou execute no terminal:
+```cmd
+run_tests.bat

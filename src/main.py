@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, status
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 app = FastAPI(title="Gerenciador de Tarefas", version="1.0.0")
 
@@ -7,6 +7,14 @@ app = FastAPI(title="Gerenciador de Tarefas", version="1.0.0")
 class TaskCreate(BaseModel):
     title: str = Field(min_length=1)
     description: str = ""
+
+    @field_validator("title")
+    @classmethod
+    def validate_not_whitespace(cls, value: str) -> str:
+        trimmed = value.strip()
+        if not trimmed:
+            raise ValueError("O título não pode ser vazio ou conter apenas espaços.")
+        return trimmed
 
 
 class Task(TaskCreate):
@@ -16,6 +24,13 @@ class Task(TaskCreate):
 
 tasks: dict[int, Task] = {}
 next_id = 1
+
+
+def reset_database():
+    """Restaura o estado do banco em memória para o harness de testes."""
+    global next_id
+    tasks.clear()
+    next_id = 1
 
 
 @app.get("/health")
