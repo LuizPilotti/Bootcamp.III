@@ -1,23 +1,17 @@
-## 📌 Resumo da Alteração
-Descreva de forma concisa as modificações introduzidas neste Pull Request.
+## Resumo
+Descreva brevemente a alteração.
 
-## 🎯 Requisito(s) e Decomposição de Tarefas
-- Tarefa / Issue relacionada: #
-- [ ] RF01 — Criar Tarefa
-- [ ] RF02 — Listar Tarefas
-- [ ] RF03 — Consultar Tarefa por ID
-- [ ] RF04 — Concluir Tarefa
-- [ ] RF05 — Endpoint de Saúde
-- [ ] RF06 — Validação de Entradas
-- [ ] RNF — Não Funcional / Infraestrutura
+## Requisito relacionado
+- [ ] RF01
+- [ ] RF02
+- [ ] RF03
+- [ ] RF04
+- [ ] RF05
 
-## 🧪 Test Harness & Validação Automatizada
-- [ ] Suíte de testes (`pytest -v`) executada localmente com 100% de sucesso.
-- [ ] Novos testes adicionados para cobrir cenários principais e casos de borda.
-- [ ] Nenhuma regressão gerada nos testes existentes.
+## Testes
+- [ ] Testes automatizados executados
+- [ ] Casos de borda verificados
 
-## 👥 Checklist de Code Review (Revisão entre Pares)
-- [ ] O código segue a especificação técnica definida em `docs/especificacao.md`.
-- [ ] As regras do agente (`AGENTS.md` / `.cursorrules`) foram respeitadas.
-- [ ] Documentação técnica e ADRs foram atualizadas (se aplicável).
-- [ ] PR direcionado para a branch de desenvolvimento (`develop` ou `feature/*`), nunca direto na `main`.
+## Revisão
+- [ ] Documentação atualizada quando necessário
+- [ ] Nenhuma alteração fora do escopo

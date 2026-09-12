@@ -1,9 +1,0 @@
-# Cursor Rules — Projeto SDD (Spec-Driven Development)
-
-## Diretrizes de Contexto e Comportamento
-1. **Spec First:** Consulte sempre `docs/especificacao.md` antes de propor ou alterar qualquer código.
-2. **Contratos Invioláveis:** Não altere esquemas de entrada/saída (status HTTP, tipos e chaves JSON) sem atualizar a especificação e registrar uma ADR.
-3. **Test-Driven / Harness First:** Sempre que um requisito for implementado ou alterado, garanta que existe cobertura no Test Harness (`tests/test_tasks.py`).
-4. **Governança de Branches:** Nunca comite diretamente na branch principal (`main`). Todas as alterações devem fluir através de branch de feature ou `develop` com Pull Request.
-5. **Simplicidade e Modularidade:** Mantenha o código conciso, com separação clara de responsabilidades (schemas, validação, repositório e endpoints).
-6. **Decisões Registradas:** Toda alteração significativa deve ser justificada em `docs/feedback.md` ou `docs/adr/`.

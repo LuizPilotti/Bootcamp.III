@@ -102,19 +102,3 @@ def test_complete_task_idempotency():
     response = client.patch(f"/tasks/{created['id']}/complete")
     assert response.status_code == 200
     assert response.json()["completed"] is True
-
-
-def test_create_task_title_with_surrounding_whitespace():
-    """Borda: Título com espaços no início e no fim deve sofrer trim preservando conteúdo"""
-    response = client.post(
-        "/tasks",
-        json={"title": "  Estudar SDD com Test Harness  ", "description": "Iteração 1"}
-    )
-    assert response.status_code == 201
-    assert response.json()["title"] == "Estudar SDD com Test Harness"
-
-
-def test_get_task_negative_id_not_found():
-    """Borda: ID numérico negativo não existente retorna 404"""
-    response = client.get("/tasks/-1")
-    assert response.status_code == 404

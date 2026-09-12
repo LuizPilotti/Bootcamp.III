@@ -5,12 +5,7 @@ echo ========================================================
 
 IF NOT EXIST ".venv" (
     echo [1/3] Criando ambiente virtual isolado (.venv)...
-    where py >nul 2>nul
-    IF NOT ERRORLEVEL 1 (
-        py -m venv .venv
-    ) ELSE (
-        python -m venv .venv
-    )
+    python -m venv .venv
 ) ELSE (
     echo [1/3] Ambiente virtual (.venv) ja detectado.
 )
