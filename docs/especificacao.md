@@ -87,3 +87,38 @@ Equipes de desenvolvimento necessitam de ferramentas simples, rastreáveis e pad
 - Concluir tarefa existente altera o booleano `completed` para `true` com status HTTP 200[cite: 3].
 - Requisições para rotas com IDs em formato incorreto retornam HTTP 422.
 - O endpoint `/health` responde `{"status": "ok"}` com status HTTP 200[cite: 3].
+
+## 8. Decomposição em Unidades (Componentes e Módulos)
+Para permitir o desenvolvimento iterativo, testabilidade e baixo acoplamento, a aplicação é decomposta nas seguintes unidades funcionais:
+
+1. **Unidade de Contratos e DTOs (`TaskCreate`, `Task`):**
+   - **Responsabilidade:** Validação estática e em tempo de execução dos formatos de dados recebidos e transmitidos via Pydantic.
+   - **Testabilidade:** Validação de regras de formato sem necessidade de inicialização do servidor HTTP.
+
+2. **Unidade de Validação de Negócio (`field_validator`):**
+   - **Responsabilidade:** Garantir integridade semântica (ex.: proibir títulos vazios ou preenchidos exclusivamente por espaços em branco através de sanitização/trimming).
+
+3. **Unidade de Repositório e Isolamento de Estado (`tasks`, `reset_database`):**
+   - **Responsabilidade:** Persistência em memória estruturada em dicionário indexado por chave inteira e controle do autoincremento.
+   - **Isolamento de Testes:** Função de teardown/reset de estado garantindo idempotência e independência absoluta entre cenários de teste.
+
+4. **Unidade de Controladores HTTP e Roteamento (`FastAPI app`):**
+   - **Responsabilidade:** Mapeamento das rotas REST, despacho de códigos de status HTTP apropriados (`200`, `201`, `404`, `422`) e conversão de exceções em payloads JSON padronizados.
+
+## 9. Matriz de Rastreabilidade (Requisitos vs. Test Harness)
+
+| Requisito | Cenário | Função de Teste (`tests/test_tasks.py`) | Resultado Esperado |
+| :--- | :--- | :--- | :--- |
+| **RF01** | Criar tarefa válida | `test_create_task` | HTTP 201 + ID sequencial |
+| **RF01/RF06** | Criar tarefa sem título | `test_create_task_missing_title_field` | HTTP 422 |
+| **RF01/RF06** | Título com string vazia | `test_title_is_required_empty_string` | HTTP 422 |
+| **RF01/RF06** | Título com espaços em branco | `test_title_whitespace_only` | HTTP 422 |
+| **RF02** | Listar tarefas cadastradas | `test_list_tasks` | HTTP 200 + Array com elementos |
+| **RF02** | Listar quando base vazia | `test_list_tasks_empty` | HTTP 200 + Array `[]` |
+| **RF03** | Consultar tarefa por ID existente | `test_get_task_success` | HTTP 200 + Objeto da tarefa |
+| **RF03** | Consultar ID inexistente | `test_get_missing_task` | HTTP 404 |
+| **RF03/RF06** | Consultar ID alfanumérico inválido | `test_get_task_invalid_id_type` | HTTP 422 |
+| **RF04** | Concluir tarefa existente | `test_complete_task` | HTTP 200 + `completed = true` |
+| **RF04** | Concluir tarefa inexistente | `test_complete_missing_task` | HTTP 404 |
+| **RF04** | Idempotência ao concluir | `test_complete_task_idempotency` | HTTP 200 + mantém `true` |
+| **RF05** | Health Check operacional | `test_health` | HTTP 200 + `{"status": "ok"}` |
