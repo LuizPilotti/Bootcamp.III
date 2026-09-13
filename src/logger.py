@@ -9,12 +9,12 @@ Referência: ADR-002 (docs/adr/ADR-002-logging.md)
 """
 
 import logging
-import os
 from datetime import datetime
 from pathlib import Path
+from typing import Optional
 
 
-def _get_logs_dir(base_dir: str | None = None) -> Path:
+def _get_logs_dir(base_dir: Optional[str] = None) -> Path:
     """Retorna o caminho da pasta de logs, criando-a se necessário."""
     if base_dir is None:
         # Navega até a raiz do projeto (pai de src/)
@@ -26,7 +26,7 @@ def _get_logs_dir(base_dir: str | None = None) -> Path:
 
 def get_logger(
     name: str = "app",
-    base_dir: str | None = None,
+    base_dir: Optional[str] = None,
     level: int = logging.INFO,
 ) -> logging.Logger:
     """
