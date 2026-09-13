@@ -117,4 +117,52 @@ def test_create_task_title_with_surrounding_whitespace():
 def test_get_task_negative_id_not_found():
     """Borda: ID numérico negativo não existente retorna 404"""
     response = client.get("/tasks/-1")
-    assert response.status_code == 404
+    assert response.status_code == 404
+
+
+# --- Novos Cenários de Borda (Ciclo 4 — Testes e Documentação) ---
+
+def test_create_task_default_description():
+    """Borda: Quando description é omitido, o valor padrão é string vazia"""
+    response = client.post("/tasks", json={"title": "Sem descrição"})
+    assert response.status_code == 201
+    data = response.json()
+    assert data["description"] == ""
+
+
+def test_create_multiple_tasks_sequential_ids():
+    """Borda: IDs devem ser sequenciais e incrementais (1, 2, 3...)"""
+    r1 = client.post("/tasks", json={"title": "Tarefa A"})
+    r2 = client.post("/tasks", json={"title": "Tarefa B"})
+    r3 = client.post("/tasks", json={"title": "Tarefa C"})
+    assert r1.json()["id"] == 1
+    assert r2.json()["id"] == 2
+    assert r3.json()["id"] == 3
+
+
+def test_complete_task_preserves_title_and_description():
+    """Borda: Concluir tarefa não deve alterar título nem descrição"""
+    created = client.post(
+        "/tasks",
+        json={"title": "Minha Tarefa", "description": "Detalhe importante"}
+    ).json()
+    response = client.patch(f"/tasks/{created['id']}/complete")
+    data = response.json()
+    assert data["completed"] is True
+    assert data["title"] == "Minha Tarefa"
+    assert data["description"] == "Detalhe importante"
+
+
+def test_health_returns_json_content_type():
+    """Borda: Endpoint /health deve retornar Content-Type application/json"""
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert "application/json" in response.headers["content-type"]
+
+
+def test_create_task_with_very_long_title():
+    """Borda: Título muito longo deve ser aceito (sem limite superior definido)"""
+    long_title = "A" * 1000
+    response = client.post("/tasks", json={"title": long_title})
+    assert response.status_code == 201
+    assert response.json()["title"] == long_title

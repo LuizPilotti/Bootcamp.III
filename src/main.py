@@ -1,7 +1,31 @@
-from fastapi import FastAPI, HTTPException, status
+import time
+
+from fastapi import FastAPI, HTTPException, Request, status
 from pydantic import BaseModel, Field, field_validator
 
+from src.logger import get_logger
+
+logger = get_logger(__name__)
+
 app = FastAPI(title="Gerenciador de Tarefas", version="1.0.0")
+
+logger.info("Aplicação Gerenciador de Tarefas inicializada.")
+
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    """Middleware que registra cada requisição HTTP recebida."""
+    start = time.time()
+    response = await call_next(request)
+    duration_ms = (time.time() - start) * 1000
+    logger.info(
+        "%s %s → %s (%.1fms)",
+        request.method,
+        request.url.path,
+        response.status_code,
+        duration_ms,
+    )
+    return response
 
 
 class TaskCreate(BaseModel):
