@@ -5,7 +5,6 @@ Utiliza tmp_path do pytest para não poluir o diretório do projeto.
 """
 
 import logging
-from pathlib import Path
 from datetime import datetime
 
 from src.logger import get_logger, _get_logs_dir
