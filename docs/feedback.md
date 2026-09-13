@@ -29,3 +29,16 @@ Este documento registra as iterações e refinamentos realizados na especificaç
   - Criação da função de isolamento `reset_database()` invocada via fixture `setup_function()` antes de cada teste do pytest.
   - Formalização da arquitetura em ADR-001 (FastAPI + Armazenamento em memória com reset + TestClient).
   - Estruturação do fluxo de branches no Git (`main`, `develop`, `feature/*`), proibindo commits diretos na `main` e padronizando templates de Pull Request e Issues.
+
+---
+
+## Ciclo 4 — Observabilidade Local e Expansão do Test Harness
+- **Feedback da Equipe:** A ausência de mecanismo de log dificultava a depuração de requisições e a rastreabilidade de eventos durante desenvolvimento e testes manuais.
+- **Problema Detectado:** Alguns cenários de borda válidos (description default, sequencialidade de IDs, preservação de campos ao concluir, Content-Type do health, títulos longos) não possuíam cobertura explícita no Test Harness.
+- **Ações Realizadas:**
+  - Criação do módulo de logging local (`src/logger.py`) utilizando exclusivamente a biblioteca padrão `logging` do Python, sem dependências externas.
+  - Implementação de middleware HTTP no FastAPI para registro automático de cada requisição (método, path, status code, tempo de resposta).
+  - Geração automática de arquivos de log diários na pasta `logs/` (adicionada ao `.gitignore`).
+  - Adição de 5 novos testes de borda no Test Harness (`tests/test_tasks.py`) e criação de suíte dedicada para o logger (`tests/test_logger.py`).
+  - Registro da decisão arquitetural em ADR-002 (`docs/adr/ADR-002-logging.md`).
+

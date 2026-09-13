@@ -21,5 +21,6 @@ env/
 *.swo
 
 # Logs temporários
+logs/
 *.log
 !test_execution.log
