@@ -910,8 +910,8 @@ Essa abordagem busca:
 
 * reduzir ambiguidades;
 * aumentar rastreabilidade;
-* prevenir regressões;
-* facilitar colaboração;
+* prevenir regressões.
+* facilitar colaboração.
 * tornar critérios de aceitação verificáveis;
 * estabelecer uma fonte única da verdade para o comportamento do sistema.
 
