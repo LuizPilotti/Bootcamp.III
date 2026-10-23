@@ -1,7 +1,17 @@
+version: '3.8'
+
 services:
-  app:
+  api:
     build: .
-    container_name: sdd-gerenciador-tarefas
+    container_name: bootcamp_api
     ports:
       - "8000:8000"
-    command: uvicorn src.main:app --host 0.0.0.0 --port 8000
+    environment:
+      - ENVIRONMENT=production
+
+  test-harness:
+    build: .
+    container_name: bootcamp_tests
+    depends_on:
+      - api
+    command: pytest --cov=app -v

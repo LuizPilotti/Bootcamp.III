@@ -485,7 +485,14 @@ Durante uma alteração, o agente deve:
 
 ## ⚙️ Guia de Instalação e Execução
 
-### Opção A — Execução Automatizada
+## 🚀 Como Executar o Projeto
+
+### Opção 1: Via Docker (Comando Único)
+```bash
+docker compose up --build
+```
+
+### Opção B — Execução Automatizada
 
 #### Windows
 
@@ -529,7 +536,7 @@ O script:
 
 ---
 
-## 🐍 Opção B — Execução Manual com Python
+## 🐍 Opção C — Execução Manual com Python
 
 ### 1. Criar o ambiente virtual
 
